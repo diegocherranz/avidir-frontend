@@ -14,7 +14,7 @@ class ListadoUsuarios extends Component {
                     <Col >
                         <Button  href='/nuevo-usuario' ><Plus /> Añadir usuario</Button>
                     </Col>
-                    <Col className='text-right'>
+                    <Col>
                         <Form className='align-items-baseline'>
                             <Row>
                                 <Col className='col-9'>
