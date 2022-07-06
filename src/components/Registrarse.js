@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCakeCandles } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import api_key from '../utils/ApiKey';
 
 
 
@@ -34,7 +35,7 @@ const Registrarse = () => {
 
         const requestConfig = {
             headers: {
-                'x-api-key': 'yhBQuDVWEw36apdbBybFT2BRLfOWkkO8aGfwvAAO'
+                'x-api-key': api_key
             }
         }
 

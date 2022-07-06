@@ -4,6 +4,7 @@ import { Button, Container, Nav, Navbar, Form, Row, Col } from 'react-bootstrap'
 import { PersonFill, KeyFill, CalendarDate, At } from 'react-bootstrap-icons';
 import { setUserSession } from './AuthService';
 import { useNavigate } from 'react-router-dom';
+import api_key from '../utils/ApiKey';
 
 const loginAPIUrl = 'https://n3cc1n86ek.execute-api.eu-west-3.amazonaws.com/prod/login'
 
@@ -29,7 +30,7 @@ const LoginPage = () => {
 
         const requestConfig = {
             headers: {
-                'x-api-key': 'yhBQuDVWEw36apdbBybFT2BRLfOWkkO8aGfwvAAO'
+                'x-api-key': api_key
             }
         }
 

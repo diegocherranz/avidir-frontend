@@ -7,6 +7,7 @@ import { PersonFill, KeyFill, CalendarDate, text, At, PersonBadge,  } from 'reac
 import { useNavigate } from "react-router-dom";
 import { getUser } from "./AuthService";
 import axios from "axios";
+import api_key from "../utils/ApiKey";
 
 const NuevoUsuario = () => {
     const [nombre, setNombre] = useState('');
@@ -33,7 +34,7 @@ const NuevoUsuario = () => {
 
         const requestConfig = {
             headers: {
-                'x-api-key': 'yhBQuDVWEw36apdbBybFT2BRLfOWkkO8aGfwvAAO'
+                'x-api-key': api_key
             }
         }
 
@@ -113,10 +114,10 @@ const NuevoUsuario = () => {
 
 
 
-                <Form.Group as={Row} className="mt-4">
+                <Form.Group style={{ textAlign: "center" }} as={Row} className="mt-4">
                     {message == '' && <p style={{ textAlign: "center" }}></p>}
                     {message && <p style={{ textAlign: "center" }}>{message}</p>}
-                    <Col >
+                    <Col>
 
                         <Button variant="primary" type="submit">
                             Añadir usuario
