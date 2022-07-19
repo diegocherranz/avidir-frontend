@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getUser } from "./AuthService";
 import axios from "axios";
 import api_key from "../utils/ApiKey";
+import api_url from "../utils/ApiUrl";
 
 const NuevoUsuario = () => {
     const [nombre, setNombre] = useState('');
@@ -18,7 +19,7 @@ const NuevoUsuario = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
-    const addUserUrl = 'https://n3cc1n86ek.execute-api.eu-west-3.amazonaws.com/prod/add-usuario';
+    const addUserUrl = api_url + '/add-usuario';
     
 
     const navigate = useNavigate();

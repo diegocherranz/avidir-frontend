@@ -7,6 +7,7 @@ import { faCakeCandles } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import api_key from '../utils/ApiKey';
+import api_url from '../utils/ApiUrl';
 
 
 
@@ -18,7 +19,7 @@ const Registrarse = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
-    const registerUrl = 'https://n3cc1n86ek.execute-api.eu-west-3.amazonaws.com/prod/register';
+    const registerUrl = api_url + '/register';
 
     const navigate = useNavigate();
     const goToLogin = () => {

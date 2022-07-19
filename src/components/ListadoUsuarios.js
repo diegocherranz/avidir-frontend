@@ -4,12 +4,13 @@ import BottomBarCuidador from './BottomBarCuidador';
 import { ArrowReturnRight, ArrowRight, ChevronRight, Plus, Search } from 'react-bootstrap-icons';
 import { getUser } from './AuthService';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import UsuarioCard from './UsuarioCard';
 import api_key from '../utils/ApiKey';
 import BarUsuarioDetalles from './BarUsuarioDetalles';
+import api_url from '../utils/ApiUrl';
 
-const getUsersUrl = 'https://n3cc1n86ek.execute-api.eu-west-3.amazonaws.com/prod/get-usuarios-c';
+const getUsersUrl = api_url + '/get-usuarios-c';
 
 
 
@@ -32,9 +33,12 @@ const ListadoUsuarios = () => {
 
     function getUsuarios() {
         axios.post(getUsersUrl, requestBody, requestConfig).then(response => {
+            if(response.data.length > 0){
             setUsuarios(response.data);
             console.log(usuarios);
+            }
             setStatus('success');
+        
         }).catch(error => {
             if (error.response.status === 401) {
                 setMessage(error.response.data.message);
@@ -94,7 +98,7 @@ const ListadoUsuarios = () => {
                         usuarios.map((user, i) => {
                             console.log(user.nombre);
                             return (
-                                <UsuarioCard user={user} key={user.email} />
+                                <Link to={'/usuario/'+user.uuid} style={{ textDecoration: 'none' }}><UsuarioCard user={user} key={user.uuid} /></Link>
                             )
                         })
 

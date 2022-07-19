@@ -5,8 +5,9 @@ import { PersonFill, KeyFill, CalendarDate, At } from 'react-bootstrap-icons';
 import { setUserSession } from './AuthService';
 import { useNavigate } from 'react-router-dom';
 import api_key from '../utils/ApiKey';
+import api_url from '../utils/ApiUrl';
 
-const loginAPIUrl = 'https://n3cc1n86ek.execute-api.eu-west-3.amazonaws.com/prod/login'
+const loginAPIUrl = api_url + '/login';
 
 
 const LoginPage = () => {
