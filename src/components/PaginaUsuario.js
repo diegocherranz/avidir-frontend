@@ -8,38 +8,65 @@ import api_key from '../utils/ApiKey';
 import BarUsuarioDetalles from './BarUsuarioDetalles';
 import axios from 'axios';
 import api_url from '../utils/ApiUrl';
+import ActividadCard from './ActividadCard';
 
 const getUserURL = api_url + '/get-usuario-id'
+const getActividadesByIDURL = api_url + '/get-actividades-user'
 
-function PaginaUsuario(props){
-    const {id} = useParams();
+function PaginaUsuario(props) {
+    const { id } = useParams();
     const [usuario, setUsuario] = useState([]);
+    const [actividades, setActividades] = useState([]);
     const [message, setMessage] = useState('');
     const [status, setStatus] = useState('');
     useEffect(() => {
         getUsuario();
-      }, []);
+        getActividadesByID();
+    }, []);
 
-      const onLoad = async () => {
+    const onLoad = async () => {
         getUsuario();
-      };
+    };
 
-      const requestConfig = {
+    const requestConfig = {
         headers: {
             'x-api-key': api_key
         }
     }
-    const requestBody = {
-        uuid: id
+
+    function getActividadesByID() {
+        const requestBody = {
+            uuid: id
+        }
+        
+        axios.post(getActividadesByIDURL, requestBody, requestConfig).then(response => {
+            if (response.data.length > 0) {
+                setActividades(response.data);
+            }
+            setStatus('success');
+
+        }).catch(error => {
+            if (error.response.status === 401) {
+                setMessage(error.response.data.message);
+            }
+            else {
+                setMessage('El servidor no está disponible. Inténtelo de nuevo más tarde');
+            }
+        })
+
     }
 
     function getUsuario() {
+        const requestBody = {
+            uuid: id
+        }
+
         axios.post(getUserURL, requestBody, requestConfig).then(response => {
-            if(response.data){
-            setUsuario(response.data);
+            if (response.data) {
+                setUsuario(response.data);
             }
             setStatus('success');
-        
+
         }).catch(error => {
             if (error.response.status === 401) {
                 setMessage(error.response.data.message);
@@ -55,18 +82,25 @@ function PaginaUsuario(props){
 
         <div>
             <BottomBarCuidador />
-            <BarUsuarioDetalles user={usuario}/>
+            <BarUsuarioDetalles user={usuario} />
 
             <Container>
-            <Stack  direction="horizontal" >
-            <h5 className="m-3 mb-0">Actividades</h5>
-            <Link className='btn m-3 mb-0 ms-auto' to='/nueva-actividad' state={{userid:id}} ><Button className="m-3 mb-0 ms-auto">Añadir Actividad</Button></Link>
-            {/*<Button href='/nueva-actividad' className="m-3 mb-0 ms-auto">Añadir Actividad</Button>*/}
-            </Stack>
+                <Stack direction="horizontal" >
+                    <h5 className="m-3 mb-0">Actividades</h5>
+                    <Link className='btn  ms-auto' to='/nueva-actividad' state={{ userid: id }} ><Button className="m-3 mb-0 ms-auto">Añadir Actividad</Button></Link>
+                    {/*<Button href='/nueva-actividad' className="m-3 mb-0 ms-auto">Añadir Actividad</Button>*/}
+                </Stack>
 
-            <div>
-                
-            </div>
+                <Container>
+                    {
+                        actividades.map((actividad,i) => {
+                            return(
+                                <ActividadCard actividad={actividad} key={actividad.uuid}/>
+                            )
+                        })
+
+                    }
+                </Container>
 
             </Container>
         </div>
