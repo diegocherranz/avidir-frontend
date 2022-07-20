@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Collapse, Container, Dropdown, Form, Row, Stack } from "react-bootstrap";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import BottomBarCuidador from "./BottomBarCuidador";
 import '../styles/custom.css'
+import { useLocation } from "react-router-dom";
 
 const tipo_actividad = ["Tareas del hogar", "Actividad física", "Medicación", "Ocio", "Salud", "Otro"];
 const dias_semana = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
 const dias_semana_ids = ['dia-L', 'dia-M', 'dia-X', 'dia-J', 'dia-V', 'dia-S', 'dia-D'];
 
 
-function AddDetallesActividad({nextStep, values, handleChange, handleChangeValue}) {
+function AddDetallesActividad({props, nextStep, values, handleChange, handleChangeValue}) {
     /*const [titulo, setTitulo] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [hora, setHora] = useState('');
@@ -20,7 +21,13 @@ function AddDetallesActividad({nextStep, values, handleChange, handleChangeValue
     const [message, setMessage] = useState('');
 
     const submitHandler = (event) => { }
+    const location = useLocation();
+    
 
+    useEffect(() => {
+        const userid = location.state?.userid;
+        handleChangeValue('userid', userid);
+      }, []);
     
 
     const GetSemanaArray = () => {
@@ -37,8 +44,12 @@ function AddDetallesActividad({nextStep, values, handleChange, handleChangeValue
             <Stack className="weekDays-selector" direction="horizontal">
                 {dias_semana.map((dia) => {
                     return (<div key={dia}>
-    
-                        <input type="checkbox" id={"dia-" + dia} className='weekday' />
+                        {values.repeticionSemana.includes(dia) &&
+                            <input defaultChecked type="checkbox" id={"dia-" + dia} className='weekday' />
+                        }
+                        {!values.repeticionSemana.includes(dia) &&
+                            <input type="checkbox" id={"dia-" + dia} className='weekday' />
+                        }
                         <label htmlFor={"dia-" + dia}>{dia}</label>
     
                     </div>)
@@ -48,9 +59,22 @@ function AddDetallesActividad({nextStep, values, handleChange, handleChangeValue
     }
 
     const Continue = e => {
-        
+        console.log(values.fechaUnaVez);
         e.preventDefault();
         if(values.repeticionSelected === 'Semanalmente') GetSemanaArray();
+        if(values.titulo === '' || values.descripcion === '' || values.hora === '' || 
+        values.tiempo_completar === 0 || values.repeticionSelected === '' || values.tipoSelected === ''){
+            setMessage("Completa todos los campos")
+            return;
+        }
+        if(values.repeticionSelected === 'Una sola vez' && values.fechaUnaVez === ''){
+            setMessage("Completa todos los campos")
+            return;
+        }
+        if(values.repeticionSelected === 'Semanalmente' && values.repeticionSemana.length === 0){
+            setMessage("No hay días de la semana seleccionados")
+            return;
+        }
         nextStep();
     }
 
@@ -58,7 +82,7 @@ function AddDetallesActividad({nextStep, values, handleChange, handleChangeValue
         <div>
             <BottomBarCuidador/>
             <Container className="mt-3">
-                <h4>Nueva actividad para props.nombre props.apellido</h4>
+                <h4>Nueva actividad</h4>
                 <Form className="mt-5 mr-5 ml-5" onSubmit={submitHandler} >
                     <Form.Group as={Row} className="mb-3 mt-5" controlId="formTitulo">
                         <Form.Label column xs={2} sm={2}>Titulo</Form.Label>

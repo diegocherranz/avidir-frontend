@@ -4,7 +4,7 @@ import { ChevronRight, Pencil, Trash } from "react-bootstrap-icons";
 
 function ActividadCard(props){
     return (
-        <Card className='m-3 mt-0 mb-0 p-3 pt-0 pb-0' key={props.actividad.id} >
+        <Card className='m-3 mt-0 mb-0 p-3 pt-0 pb-0' key={props.actividad.uuid} >
             <Row className='align-items-baseline'>
                 <Col ><p className='pl-3'>{props.actividad.titulo}</p></Col>
                 <Col className='d-none d-sm-block'><p>{props.actividad.hora}</p></Col>

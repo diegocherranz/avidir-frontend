@@ -35,11 +35,8 @@ function PaginaUsuario(props){
 
     function getUsuario() {
         axios.post(getUserURL, requestBody, requestConfig).then(response => {
-            console.log(response); 
             if(response.data){
-                console.log(response)
             setUsuario(response.data);
-            console.log(usuario);
             }
             setStatus('success');
         
@@ -53,6 +50,7 @@ function PaginaUsuario(props){
         })
     }
 
+
     return (
 
         <div>
@@ -62,15 +60,13 @@ function PaginaUsuario(props){
             <Container>
             <Stack  direction="horizontal" >
             <h5 className="m-3 mb-0">Actividades</h5>
-            <Link className='btn' to={{
-                pathname: '/nueva-actividad',
-                props: {
-                    userid: usuario.uuid
-                }
-            }}><Button className="m-3 mb-0 ms-auto">Añadir Actividad</Button></Link>
+            <Link className='btn m-3 mb-0 ms-auto' to='/nueva-actividad' state={{userid:id}} ><Button className="m-3 mb-0 ms-auto">Añadir Actividad</Button></Link>
             {/*<Button href='/nueva-actividad' className="m-3 mb-0 ms-auto">Añadir Actividad</Button>*/}
             </Stack>
 
+            <div>
+                
+            </div>
 
             </Container>
         </div>

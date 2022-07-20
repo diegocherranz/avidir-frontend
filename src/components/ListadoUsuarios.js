@@ -35,7 +35,6 @@ const ListadoUsuarios = () => {
         axios.post(getUsersUrl, requestBody, requestConfig).then(response => {
             if(response.data.length > 0){
             setUsuarios(response.data);
-            console.log(usuarios);
             }
             setStatus('success');
         
@@ -53,10 +52,6 @@ const ListadoUsuarios = () => {
     useEffect(() => {
         getUsuarios();
     }, []);
-
-    const goToUser = (email) => {
-        console.log(email);
-    }
 
     return (
 
@@ -96,7 +91,6 @@ const ListadoUsuarios = () => {
                     <h5 className='m-3'>Usuarios</h5>
                     {
                         usuarios.map((user, i) => {
-                            console.log(user.nombre);
                             return (
                                 <Link to={'/usuario/'+user.uuid} style={{ textDecoration: 'none' }}><UsuarioCard user={user} key={user.uuid} /></Link>
                             )

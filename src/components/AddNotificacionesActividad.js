@@ -1,16 +1,64 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Button, Col, Collapse, Container, Dropdown, Form, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import api_key from "../utils/ApiKey";
+import api_url from "../utils/ApiUrl";
 import BottomBarCuidador from "./BottomBarCuidador";
 
+const addActividadURL = api_url + '/add-actividad'
+
 function AddNotificacionesActividad({ prevStep, values, handleChange, handleChangeCheckbox }) {
-    const [tiempo_terminar, setTiempoTerminar] = useState('');
-    const [descripcion, setDescripcion] = useState('');
-    const [hora, setHora] = useState('');
-    const [tiempo_completar, setTiempoCompletar] = useState('');
 
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
-    const submitHandler = (event) => { }
+    const submitHandler = e => {
+        e.preventDefault();
+        if ((values.notifUserTerminar && values.notifUserTerminarTiempo <= 0) || (values.notifCNoCompletar && values.notifCNoCompletarTiempo <= 0)) {
+            setMessage("Introduce la cantidad de tiempo en los campos activados");
+            console.log("EU")
+            return;
+        }
+        setMessage('')
+
+        const requestConfig = {
+            headers: {
+                'x-api-key': api_key
+            }
+        }
+        const requestBody = {
+            userid: values.userid,
+            titulo: values.titulo,
+            descripcion: values.descripcion,
+            hora: values.hora,
+            tiempo_completar: values.tiempo_completar,
+            repeticionSelected: values.repeticionSelected,
+            tipoSelected: values.tipoSelected,
+            fechaUnaVez: values.fechaUnaVez,
+            repeticionSemana: values.repeticionSemana,
+            notifUserInicio: values.notifUserInicio,
+            notifUserTerminar: values.notifUserTerminar,
+            notifUserTerminarTiempo: values.notifUserTerminarTiempo,
+            notifUserNoTerminar: values.notifUserNoTerminar,
+            notifCCompletar: values.notifCCompletar,
+            notifCNoCompletar: values.notifCNoCompletar,
+            notifCNoCompletarTiempo: values.notifCNoCompletarTiempo
+        }
+
+        axios.post(addActividadURL, requestBody, requestConfig).then(response => {
+            setMessage('Actividad creada');
+            navigate('/usuario/'+values.userid);
+        }).catch(error => {
+            if(error.response.status === 401){
+                setMessage(error.response.data.message);
+            }
+            else{
+                setMessage('El servidor no está disponible. Inténtelo de nuevo más tarde')
+            }
+        })
+
+    }
 
     const Previous = e => {
         e.preventDefault();
@@ -24,7 +72,7 @@ function AddNotificacionesActividad({ prevStep, values, handleChange, handleChan
 
                 <h4>Notificaciones de Titulo Actividad</h4>
 
-                <Form className="mt-5 mr-5 ml-5">
+                <Form className="mt-5 mr-5 ml-5" >
                     <h5>Notificaciones al usuario</h5>
                     <Form.Group as={Row} className="mb-3" controlId="formTitulo">
                         <Form.Label column xs={2} sm={2}>¿Avisar al inicio?</Form.Label>
@@ -46,12 +94,12 @@ function AddNotificacionesActividad({ prevStep, values, handleChange, handleChan
                                 onClick={handleChangeCheckbox('notifUserTerminar')}
                             />
                         </Col>
-                                <Col xs={1} sm={1}>
-                                    <Form.Control value={values.notifUserTerminarTiempo} onChange={handleChange('notifUserTerminarTiempo')} type="number" placeholder="" />
-                                </Col>
-                                <Col>
-                                    <Form.Label column xs={2} sm={2}>minutos antes</Form.Label>
-                                </Col>
+                        <Col xs={1} sm={1}>
+                            <Form.Control value={values.notifUserTerminarTiempo} onChange={handleChange('notifUserTerminarTiempo')} type="number" placeholder="" />
+                        </Col>
+                        <Col>
+                            <Form.Label column xs={2} sm={2}>minutos antes</Form.Label>
+                        </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className="mb-3" controlId="formTitulo">
@@ -133,7 +181,7 @@ function AddNotificacionesActividad({ prevStep, values, handleChange, handleChan
                         </Col>
                         <Col>
 
-                            <Button variant="primary" type="submit">
+                            <Button variant="primary" onClick={(event) => submitHandler(event)}>
                                 Crear actividad
                             </Button>
                         </Col>

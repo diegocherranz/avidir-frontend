@@ -17,6 +17,7 @@ class AnadirActividad extends Component {
 
     state = {
         step: 1,
+        userid: '',
         titulo: '',
         descripcion: '',
         hora: '',
@@ -60,10 +61,11 @@ class AnadirActividad extends Component {
     }
 
     render() {
-        console.log(this.props.location)
         const {step} = this.state;
-        const { titulo, descripcion, hora, tiempo_completar, repeticionSelected, tipoSelected, fechaUnaVez, repeticionSemana } = this.state;
-        const values = { titulo, descripcion, hora, tiempo_completar, repeticionSelected, tipoSelected, fechaUnaVez, repeticionSemana }
+        const { userid, titulo, descripcion, hora, tiempo_completar, repeticionSelected, tipoSelected, fechaUnaVez, repeticionSemana,
+        notifUserInicio, notifUserTerminar, notifUserTerminarTiempo, notifUserNoTerminar, notifCCompletar, notifCNoCompletar, notifCNoCompletarTiempo} = this.state;
+        const values = {userid, titulo, descripcion, hora, tiempo_completar, repeticionSelected, tipoSelected, fechaUnaVez, repeticionSemana,
+            notifUserInicio, notifUserTerminar, notifUserTerminarTiempo, notifUserNoTerminar, notifCCompletar, notifCNoCompletar, notifCNoCompletarTiempo}
         switch (step) {
             case 1:
                 return (
