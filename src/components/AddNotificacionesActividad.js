@@ -70,7 +70,7 @@ function AddNotificacionesActividad({ prevStep, values, handleChange, handleChan
             <BottomBarCuidador />
             <Container className="mt-3">
 
-                <h4>Notificaciones de Titulo Actividad</h4>
+                <h4>Notificaciones</h4>
 
                 <Form className="mt-5 mr-5 ml-5" >
                     <h5>Notificaciones al usuario</h5>
@@ -144,29 +144,6 @@ function AddNotificacionesActividad({ prevStep, values, handleChange, handleChan
                             <Form.Label column >minutos</Form.Label>
                         </Col>
                     </Form.Group>
-
-                    {/*
-                <Form.Group as={Row} className="mb-3" controlId="formFechaNacimiento">
-                    <Form.Label column xs={2} sm={2}><FontAwesomeIcon icon={faCakeCandles} /></Form.Label>
-                    <Col xs={10} sm={10}>
-                        <Form.Control value={fechaNacimiento} onChange={event => setFecha(event.target.value)} type="date" placeholder='Fecha de nacimiento' />
-                    </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} className="mb-3" controlId="formBasicEmail">
-                    <Form.Label column xs={2} sm={2}><At /></Form.Label>
-                    <Col xs={10} sm={10}>
-                        <Form.Control value={email} type="email" onChange={event => setEmail(event.target.value)} placeholder="Introduce el email" />
-                    </Col>
-                </Form.Group>
-
-                <Form.Group as={Row} className="mb-3" controlId="formBasicPassword">
-                    <Form.Label column xs={2} sm={2}><KeyFill /></Form.Label>
-                    <Col xs={10} sm={10}>
-                        <Form.Control value={password} type="password" onChange={event => setPassword(event.target.value)} placeholder="Contraseña" />
-                    </Col>
-                </Form.Group>*/
-                    }
 
 
 
