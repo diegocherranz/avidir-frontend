@@ -17,7 +17,6 @@ function AddNotificacionesActividad({ prevStep, values, handleChange, handleChan
         e.preventDefault();
         if ((values.notifUserTerminar && values.notifUserTerminarTiempo <= 0) || (values.notifCNoCompletar && values.notifCNoCompletarTiempo <= 0)) {
             setMessage("Introduce la cantidad de tiempo en los campos activados");
-            console.log("EU")
             return;
         }
         setMessage('')

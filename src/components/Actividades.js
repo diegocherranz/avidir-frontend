@@ -1,31 +1,69 @@
 import React, { Component, useEffect, useLayoutEffect, useState } from 'react'
 import { findDOMNode } from "react-dom";
-import { Carousel, CarouselItem, CarouselCaption, Container, Row, Col, Button } from 'react-bootstrap';
+import { Carousel, CarouselItem, CarouselCaption, Container, Row, Col, Button, Stack } from 'react-bootstrap';
 import BottomBarUsuario from './BottomBarUsuario';
-import tareashogar from "../img/tareashogar.png";
+
 import api_url from '../utils/ApiUrl';
 import api_key from '../utils/ApiKey';
 import axios from 'axios';
 import { getUser } from './AuthService';
 import { ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
+import { useNavigate } from 'react-router-dom';
+import imagenActividadSelect from '../utils/ImageSelector';
 
-const getActividadesByIDURL = api_url + '/get-actividades-user'
+const getActividadesByIDURL = api_url + '/get-actividades-hoy';
+const completarActividadURL = api_url + '/completar-actividad';
+
+
+
+
 
 function ActividadCarouselItem(props) {
+    const navigate = useNavigate();
+
+    const completarActividad = (actividad) => {
+
+
+
+        const requestBody = {
+            uuid: actividad.uuid,
+            userUuid: actividad.userUuid
+        }
+        const requestConfig = {
+            headers: {
+                'x-api-key': api_key
+            }
+        }
+
+        axios.post(completarActividadURL, requestBody, requestConfig).then(response => {
+            navigate('/actividades')
+
+        }).catch(error => {
+            if (error.response.status === 401) {
+                console.log(error.response.data.message);
+            }
+            else {
+                console.log('El servidor no está disponible. Inténtelo de nuevo más tarde');
+            }
+        })
+    }
+
     let displayClass = "d-none"
 
-    if(props.actividad.render){
+    const imagen = imagenActividadSelect(props.actividad.tipoSelected)
+
+    if (props.actividad.render) {
         displayClass = "inline"
     }
-    else{ displayClass = "d-none"}
+    else { displayClass = "d-none" }
     return (
-        
-        <div className={'m-5 actividad ' + displayClass}>
+
+        <div className={'border m-5 p-3 actividad ' + displayClass}>
             <Row  >
                 <img
                     style={{ width: "230px" }}
                     className="rounded mx-auto d-block"
-                    src={tareashogar}
+                    src={imagen}
                     alt="Second slide"
                 />
             </Row>
@@ -35,6 +73,12 @@ function ActividadCarouselItem(props) {
             </Row>
             <Row>
                 <p>{props.actividad.hora}</p>
+            </Row>
+            <Row>
+                <Stack direction="horizontal">
+                    <Button href={'/actividad/'+props.actividad.uuid} >Detalles</Button>
+                    <Button onClick={() => completarActividad(props.actividad)} className='ms-auto'>Completar</Button>
+                </Stack>
             </Row>
         </div>
     )
@@ -54,50 +98,14 @@ function Actividades() {
 
     useEffect(() => {
         getActividadesByID();
-        console.log("HEY");
-        console.log(status)
-        /*if(status === 'success'){
-        slides = document.getElementsByClassName("actividad");
-
-     
-            showSlides(slideIndex);
-        }*/
- 
     }, []);
 
 
-/*
-    var next = document.getElementById("btn-next");
-    var prev = document.getElementById("btn-prev");
-    var indicador_pagina = document.getElementById("num_pagina");*/
-
-
-/*
-
-    function showSlides(n) {
-        let i;
-
-        if (n > slides.length) { setSlideIndex(1) }
-        if (n < 1) { setSlideIndex(slides.length) }
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        slides[slideIndex - 1].style.display = "block";
-        indicador_pagina.innerHTML = slideIndex + " de " + slides.length;
-        if (slideIndex == 1) prev.style.display = "none";
-        else prev.style.display = "inline-block";
-        if (slideIndex == slides.length) next.style.display = "none";
-        else next.style.display = "inline-block";
-
-    }
-
-*/
-    // Next/previous controls
-    
     function plusSlides(n) {
         setSlideIndex(slideIndex + n);
-        if (slideIndex > actividades.length - 1) { setSlideIndex(1) }
-        if (slideIndex < 1) { setSlideIndex(actividades.length - 1) }
+        if (slideIndex + n > (actividades.length - 1)) { setSlideIndex(0) }
+        if (slideIndex + n < 0) { setSlideIndex(actividades.length - 1) }
+
     }
 
     const requestConfig = {
@@ -130,28 +138,38 @@ function Actividades() {
 
     return (
 
-        
+
 
         <div>
             <Container style={{ textAlign: "center" }}>
                 <h5 className='m-3'>Mis actividades</h5>
-                {
+                {actividades.length > 0 &&
+
                     actividades.map((actividad, i) => {
-                        if(slideIndex == i){
+                        if (slideIndex == i) {
                             actividad.render = true
                         }
-                        else{
+                        else {
                             actividad.render = false
                         }
                         return <ActividadCarouselItem actividad={actividad} key={actividad.uuid} />
                     })
+
                 }
 
-                <Row className='align-items-baseline'>
-                    <Col xs={{ span: 1, offset: 2 }} ><Button variant='primary' onClick={() => plusSlides(1)}><ChevronLeft id='btn-prev' /></Button></Col>
-                    <Col xs={{ span: 2 }}><p id='num_pagina'></p></Col>
-                    <Col xs={{ span: 1, offset: 3 }} ><Button variant='primary' id='btn-next'  onClick={() => plusSlides(-1)}><ChevronRight /></Button></Col>
-                </Row>
+
+                {actividades.length > 0 &&
+                    <Row className='align-items-baseline'>
+                        <Col xs={{ span: 1, offset: 1 }} ><Button variant='primary' onClick={() => plusSlides(-1)}><ChevronLeft id='btn-prev' /></Button></Col>
+                        <Col xs={{ span: 4, offset: 2 }}><p>{slideIndex + 1} de {actividades.length}</p></Col>
+                        <Col xs={{ span: 1, offset: 1 }} ><Button variant='primary' id='btn-next' onClick={() => plusSlides(1)}><ChevronRight /></Button></Col>
+                    </Row>
+                }
+
+                {actividades.length === 0 &&
+                    <p>No hay actividades disponibles</p>
+                }
+
             </Container>
 
 
@@ -160,7 +178,7 @@ function Actividades() {
 
         </div>
 
-            
+
     )
 }
 

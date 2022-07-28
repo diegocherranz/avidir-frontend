@@ -18,6 +18,7 @@ import ProfileUsuario from './ProfileUsuario';
 import NuevoUsuario from './NuevoUsuario';
 import PaginaUsuario from './PaginaUsuario';
 import AnadirActividad from './AnadirActividad';
+import ActividadDetalles from './ActividadDetalles';
 
 class Router extends Component {
     render() {
@@ -32,6 +33,9 @@ class Router extends Component {
                     <Route exact path='/home' element={<Home />} />
                     <Route path='/actividades' element={<PrivateRouteU />}>
                         <Route path='/actividades' element={<Actividades />} />
+                    </Route>
+                    <Route path='/actividad/:id' element={<PrivateRouteU />}>
+                        <Route path='/actividad/:id' element={<ActividadDetalles />} />
                     </Route>
                     <Route path='/notificaciones-usuario' element={<PrivateRouteU />}>
                         <Route path='/notificaciones-usuario' element={<NotificacionesUsuario />} />
