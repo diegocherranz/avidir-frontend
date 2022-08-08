@@ -1,59 +1,30 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Container, Row, Stack } from "react-bootstrap";
-import { CheckCircle, CheckCircleFill, Clock, X, XCircleFill } from "react-bootstrap-icons";
-import { useNavigate, useParams } from "react-router-dom";
+import { Container, Stack } from "react-bootstrap";
+import { Clock } from "react-bootstrap-icons";
+import { useParams } from "react-router-dom";
 import api_key from "../utils/ApiKey";
 import api_url from "../utils/ApiUrl";
-import imagenActividadSelect from "../utils/ImageSelector";
-import { getUser } from "./AuthService";
-import '../styles/custom.css'
-import BottomBarUsuario from "./BottomBarUsuario";
+import BottomBarCuidador from "./BottomBarCuidador";
 
 const getActividadByIDURL = api_url + '/get-actividad-id';
-const completarActividadURL = api_url + '/completar-actividad';
 const dias_semana = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
 
-function ActividadDetalles(props) {
-    const { id } = useParams();
+const formatDate = (inputDate) => {
+    let dateI = new Date(inputDate);
+
+    return ( dateI.getDate() + "-" + dateI.getMonth() + "-" + dateI.getFullYear())
+}
+
+function ActividadDetallesC(props) {
+    const { id, actid } = useParams();
     const [actividad, setActividad] = useState({});
     const [message, setMessage] = useState('');
     const [status, setStatus] = useState('');
-    const [imagenActividad, setImagenActividad] = useState(null);
-    const usuario = getUser();
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         getActividadByID();
     }, []);
-
-    const completarActividad = (actividad) => {
-
-
-
-        const requestBody = {
-            uuid: actividad.uuid,
-            userUuid: actividad.userUuid
-        }
-        const requestConfig = {
-            headers: {
-                'x-api-key': api_key
-            }
-        }
-
-        axios.post(completarActividadURL, requestBody, requestConfig).then(response => {
-            navigate('/actividades')
-
-        }).catch(error => {
-            if (error.response.status === 401) {
-                console.log(error.response.data.message);
-            }
-            else {
-                console.log('El servidor no está disponible. Inténtelo de nuevo más tarde');
-            }
-        })
-    }
 
     function getActividadByID() {
         const requestConfig = {
@@ -63,8 +34,8 @@ function ActividadDetalles(props) {
         }
 
         const requestBody = {
-            uuid: id,
-            userUuid: usuario.uuid
+            uuid: actid,
+            userUuid: id
         }
 
         axios.post(getActividadByIDURL, requestBody, requestConfig).then(response => {
@@ -104,6 +75,7 @@ function ActividadDetalles(props) {
 
     return (
         <div>
+            <BottomBarCuidador/>
             <Container className="">
                 <h4 className="mt-5 mx-3">Actividad</h4>
                 <h5 className="mt-5 mx-3">{actividad.titulo}</h5>
@@ -113,17 +85,19 @@ function ActividadDetalles(props) {
                 {actividad.repeticionSelected === "Semanalmente" &&
                     <CheckboxSemana className="mt-3" />
                 }
+                {actividad.repeticionSelected === "Una sola vez" &&
+                    <p className="mt-3 mx-3">Fecha: {formatDate(actividad.fechaUnaVez)}</p>
+                }
+                {actividad.repeticionSelected === "Diariamente" &&
+                    <p className="mt-3 mx-3">Actividad diaria</p>
+                }
 
 
 
             </Container>
-            <Stack className="stack-buttons mx-5" direction="horizontal">
-                <XCircleFill color="red" size={60} />
-                <CheckCircleFill onClick={() => completarActividad(actividad)} className="ms-auto" color="green" size={60} />
-            </Stack>
-            <BottomBarUsuario />
         </div>
     )
+
 }
 
-export default ActividadDetalles;
+export default ActividadDetallesC;

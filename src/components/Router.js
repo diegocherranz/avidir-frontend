@@ -19,6 +19,7 @@ import NuevoUsuario from './NuevoUsuario';
 import PaginaUsuario from './PaginaUsuario';
 import AnadirActividad from './AnadirActividad';
 import ActividadDetalles from './ActividadDetalles';
+import ActividadDetallesC from './ActividadDetallesC';
 
 class Router extends Component {
     render() {
@@ -51,6 +52,9 @@ class Router extends Component {
                     </Route>
                     <Route path='/usuario/:id' element={<PrivateRouteC />}>
                         <Route path='/usuario/:id' element={<PaginaUsuario />} />
+                    </Route>
+                    <Route path='/usuario/:id/:actid' element={<PrivateRouteC />}>
+                        <Route path='/usuario/:id/:actid' element={<ActividadDetallesC />} />
                     </Route>
                     <Route path='/nueva-actividad' element={<PrivateRouteC />}>
                         <Route path='/nueva-actividad' element={<AnadirActividad/>} />

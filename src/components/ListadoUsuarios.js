@@ -18,6 +18,7 @@ const ListadoUsuarios = () => {
 
     const [usuarios, setUsuarios] = useState([]);
     const [message, setMessage] = useState('');
+    const [searchText, setSearchText] = useState('');
     const [status, setStatus] = useState('');
 
     const cuidador = getUser();
@@ -74,6 +75,7 @@ const ListadoUsuarios = () => {
                                         className='me-2'
                                         placeholder="Buscar..."
                                         aria-label="Buscar..."
+                                        onChange={event => {setSearchText(event.target.value)}}
                                     />
                                 </Col>
                                 <Col className='col-3'>
@@ -90,7 +92,14 @@ const ListadoUsuarios = () => {
                 <Container>
                     <h5 className='m-3'>Usuarios</h5>
                     {
-                        usuarios.map((user, i) => {
+                        usuarios.filter((val) => {
+                            if(searchText == ""){
+                                return val;
+                            }
+                            else if(val.nombre.toLowerCase().includes(searchText.toLowerCase()) || val.email.toLowerCase().includes(searchText.toLowerCase()) || val.apellido.toLowerCase().includes(searchText.toLowerCase())){
+                                return val;
+                            }
+                        }).map((user, i) => {
                             return (
                                 <Link to={'/usuario/'+user.uuid} style={{ textDecoration: 'none' }}><UsuarioCard user={user} key={user.uuid} /></Link>
                             )

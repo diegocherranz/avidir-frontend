@@ -1,24 +1,53 @@
-.weekDays-selector input{
-    display: none!important;
+.weekDays-selector input {
+  display: none !important;
 }
 
-.weekDays-selector input[type=checkbox] + label {
-    display: inline-block;
-    border-radius: 6px;
-    background: #dddddd;
-    height: 40px;
-    width: 30px;
-    margin-right: 3px;
-    line-height: 40px;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .weekDays-selector input[type=checkbox]:checked + label {
-    background: #2AD705;
-    color: #ffffff;
-  }
+.weekDays-selector input[type=checkbox]+label {
+  display: inline-block;
+  border-radius: 6px;
+  background: #dddddd;
+  height: 40px;
+  width: 30px;
+  margin-right: 3px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
 
-  .stack-buttons{
+.weekDays-selector input[type=checkbox]:checked+label {
+  background: #2AD705;
+  color: #ffffff;
+}
+
+.weekDays-selector-card input {
+  display: none !important;
+}
+
+.weekDays-selector-card input[type=checkbox]+label {
+  display: inline-block;
+  border-radius: 6px;
+  background: #dddddd;
+  height: 25px;
+  width: 25px;
+  margin-right: 3px;
+  line-height: 25px;
+  text-align: center;
+  cursor: default;
+}
+
+.weekDays-selector-card input[type=checkbox]:checked+label {
+  background: #2AD705;
+  color: #ffffff;
+}
+
+@media screen and (max-width: 500px) {
+  .stack-buttons {
     margin-top: 30%;
   }
+}
+
+@media screen and (min-width: 500px) {
+  .stack-buttons {
+    margin-top: 3%;
+  }
+}
