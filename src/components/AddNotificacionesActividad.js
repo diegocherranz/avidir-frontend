@@ -42,7 +42,8 @@ function AddNotificacionesActividad({ prevStep, values, handleChange, handleChan
             notifUserNoTerminar: values.notifUserNoTerminar,
             notifCCompletar: values.notifCCompletar,
             notifCNoCompletar: values.notifCNoCompletar,
-            notifCNoCompletarTiempo: values.notifCNoCompletarTiempo
+            notifCNoCompletarTiempo: values.notifCNoCompletarTiempo,
+            cuidadores_uuid: values.cuidadores
         }
 
         axios.post(addActividadURL, requestBody, requestConfig).then(response => {

@@ -32,7 +32,8 @@ class AnadirActividad extends Component {
         notifUserNoTerminar: false,
         notifCCompletar: false,
         notifCNoCompletar: false,
-        notifCNoCompletarTiempo: 0
+        notifCNoCompletarTiempo: 0,
+        cuidadores: []
     }
 
     prevStep = () => {
@@ -63,9 +64,9 @@ class AnadirActividad extends Component {
     render() {
         const {step} = this.state;
         const { userid, titulo, descripcion, hora, tiempo_completar, repeticionSelected, tipoSelected, fechaUnaVez, repeticionSemana,
-        notifUserInicio, notifUserTerminar, notifUserTerminarTiempo, notifUserNoTerminar, notifCCompletar, notifCNoCompletar, notifCNoCompletarTiempo} = this.state;
+        notifUserInicio, notifUserTerminar, notifUserTerminarTiempo, notifUserNoTerminar, notifCCompletar, notifCNoCompletar, notifCNoCompletarTiempo, cuidadores} = this.state;
         const values = {userid, titulo, descripcion, hora, tiempo_completar, repeticionSelected, tipoSelected, fechaUnaVez, repeticionSemana,
-            notifUserInicio, notifUserTerminar, notifUserTerminarTiempo, notifUserNoTerminar, notifCCompletar, notifCNoCompletar, notifCNoCompletarTiempo}
+            notifUserInicio, notifUserTerminar, notifUserTerminarTiempo, notifUserNoTerminar, notifCCompletar, notifCNoCompletar, notifCNoCompletarTiempo, cuidadores}
         switch (step) {
             case 1:
                 return (

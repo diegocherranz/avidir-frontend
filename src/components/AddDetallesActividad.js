@@ -4,6 +4,12 @@ import DropdownItem from "react-bootstrap/esm/DropdownItem";
 import BottomBarCuidador from "./BottomBarCuidador";
 import '../styles/custom.css'
 import { useLocation } from "react-router-dom";
+import axios from "axios";
+import api_url from "../utils/ApiUrl";
+import api_key from "../utils/ApiKey";
+
+const getUserURL = api_url + '/get-usuario-id'
+
 
 const tipo_actividad = ["Tareas del hogar", "Actividad física", "Medicación", "Ocio", "Salud", "Otro"];
 const dias_semana = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
@@ -19,6 +25,7 @@ function AddDetallesActividad({props, nextStep, values, handleChange, handleChan
     const [tipoSelected, setTipoSelected] = useState(null);
     const [fechaUnaVez, setFechaUnaVez] = useState('');*/
     const [message, setMessage] = useState('');
+    const [usuario, setUsuario] = useState();
 
     const submitHandler = (event) => { }
     const location = useLocation();
@@ -27,6 +34,8 @@ function AddDetallesActividad({props, nextStep, values, handleChange, handleChan
     useEffect(() => {
         const userid = location.state?.userid;
         handleChangeValue('userid', userid);
+        getUsuario();
+        
       }, []);
     
 
@@ -37,6 +46,34 @@ function AddDetallesActividad({props, nextStep, values, handleChange, handleChan
         });
 
         handleChangeValue('repeticionSemana', array_week);
+    }
+
+    function getUsuario() {
+        const requestBody = {
+            uuid: location.state?.userid
+        }
+
+        const requestConfig = {
+            headers: {
+                'x-api-key': api_key
+            }
+        }
+
+        axios.post(getUserURL, requestBody, requestConfig).then(response => {
+            if (response.data) {
+                setUsuario(response.data);
+                console.log(response.data.cuidadores_uuid)
+                handleChangeValue('cuidadores', response.data.cuidadores_uuid);
+            }
+
+        }).catch(error => {
+            if (error.response.status === 401) {
+                setMessage(error.response.data.message);
+            }
+            else {
+                setMessage('El servidor no está disponible. Inténtelo de nuevo más tarde');
+            }
+        })
     }
     
     const CheckboxSemana = () => {
