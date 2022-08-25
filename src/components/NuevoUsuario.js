@@ -46,7 +46,8 @@ const NuevoUsuario = () => {
             email: email,
             dni: dni,
             password: password,
-            cuidador: cuidador.email
+            cuidador: cuidador.email,
+            cuidador_uuid: cuidador.uuid
         }
 
         console.log(requestBody);

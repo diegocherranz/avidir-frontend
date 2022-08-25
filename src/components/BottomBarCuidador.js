@@ -9,10 +9,10 @@ import { getUser, getToken } from './AuthService';
 const BottomBarCuidador = () => {
     return (
         <Navbar bg='secondary'>
-                <Nav variant='pills' activeKey={window.location.pathname} className="me-auto" >
-                    <Nav.Link className='ml-3' style={{verticalAlign: 'center'}} href="/usuarios"><List/> Usuarios</Nav.Link>
-                    <Nav.Link href="/notificaciones"><Bell/> Notificaciones</Nav.Link>
-                    <Nav.Link href="/profile"><PersonFill/> Perfil</Nav.Link>
+                <Nav  variant='pills' activeKey={window.location.pathname} className="me-auto nav-fill" >
+                    <Nav.Link className='ml-3 nav-justified' style={{verticalAlign: 'center', color: 'white'}} href="/usuarios"><List/> Usuarios</Nav.Link>
+                    <Nav.Link style={{verticalAlign: 'center', color: 'white'}} href="/notificaciones"><Bell/> Notificaciones</Nav.Link>
+                    <Nav.Link style={{verticalAlign: 'center', color: 'white'}} href="/profile"><PersonFill/> Perfil</Nav.Link>
                 </Nav>
         </Navbar>
     )

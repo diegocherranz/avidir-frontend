@@ -1,12 +1,21 @@
 // change the theme
+/*
 $theme-colors: (
   "primary": #A0be25,
   "secondary": #C4d876,
   "danger": #ff4136,
   "success": rgb(25, 192, 39)
-);
+);*/
 
-$primary: #A0be25;
+//$primary: #A0be25;
+$primary: #00838f;
 $success: rgb(25, 192, 39);
 
-@import '~bootstrap/scss/bootstrap.scss';
+$theme-colors: (
+  "primary": #00838f,
+  "secondary": #4fb3bf,
+  "danger": #ff4136,
+  "success": rgb(25, 192, 39)
+);
+
+@import '~bootstrap/scss/bootstrap.scss'; 
