@@ -32,10 +32,7 @@ function ActividadDetalles(props) {
 
 
 
-        const requestBody = {
-            uuid: actividad.uuid,
-            userUuid: actividad.userUuid
-        }
+        const requestBody = actividad
         const requestConfig = {
             headers: {
                 'x-api-key': api_key

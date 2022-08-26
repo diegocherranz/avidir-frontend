@@ -62,7 +62,6 @@ function AddDetallesActividad({props, nextStep, values, handleChange, handleChan
         axios.post(getUserURL, requestBody, requestConfig).then(response => {
             if (response.data) {
                 setUsuario(response.data);
-                console.log(response.data.cuidadores_uuid)
                 handleChangeValue('cuidadores', response.data.cuidadores_uuid);
             }
 

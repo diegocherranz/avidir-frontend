@@ -15,7 +15,9 @@ const getActividadesByIDURL = api_url + '/get-actividades-hoy';
 const completarActividadURL = api_url + '/completar-actividad';
 
 
-
+function refreshPage() {
+    window.location.reload(false);
+  }
 
 
 function ActividadCarouselItem(props) {
@@ -25,10 +27,7 @@ function ActividadCarouselItem(props) {
 
 
 
-        const requestBody = {
-            uuid: actividad.uuid,
-            userUuid: actividad.userUuid
-        }
+        const requestBody = actividad
         const requestConfig = {
             headers: {
                 'x-api-key': api_key
@@ -36,7 +35,8 @@ function ActividadCarouselItem(props) {
         }
 
         axios.post(completarActividadURL, requestBody, requestConfig).then(response => {
-            navigate('/actividades')
+            //navigate('/actividades')
+            refreshPage();
 
         }).catch(error => {
             if (error.response.status === 401) {
