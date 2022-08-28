@@ -78,7 +78,7 @@ const ListadoUsuarios = () => {
                                         onChange={event => {setSearchText(event.target.value)}}
                                     />
                                 </Col>
-                                <Col className='col-3'>
+                                <Col className='col-1'>
                                     <Button variant="outline-success"><Search /></Button>
                                 </Col>
                             </Row>

@@ -15,7 +15,8 @@ $theme-colors: (
   "primary": #00838f,
   "secondary": #4fb3bf,
   "danger": #ff4136,
-  "success": rgb(25, 192, 39)
+  "success": rgb(25, 192, 39),
+  "background-card" : #e6e8e2
 );
 
 @import '~bootstrap/scss/bootstrap.scss'; 

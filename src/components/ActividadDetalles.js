@@ -110,14 +110,18 @@ function ActividadDetalles(props) {
                 {actividad.repeticionSelected === "Semanalmente" &&
                     <CheckboxSemana className="mt-3" />
                 }
+                {actividad.repeticionSelected === "Diariamente" &&
+                    <p className="mt-3 mx-3">Actividad diaria</p>
+                }
 
 
 
             </Container>
-            <Stack className="stack-buttons mx-5" direction="horizontal">
-                <XCircleFill color="red" size={60} />
-                <CheckCircleFill onClick={() => completarActividad(actividad)} className="ms-auto" color="green" size={60} />
-            </Stack>
+            {//<CheckCircleFill onClick={() => completarActividad(actividad)} className="ms-auto" color="green" size={60} />
+            }
+            <div className="my-5 d-flex justify-content-center">
+                <Button onClick={() => completarActividad(actividad)} className="">Completar</Button>
+            </div>
             <BottomBarUsuario />
         </div>
     )

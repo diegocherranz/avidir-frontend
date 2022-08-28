@@ -58,7 +58,7 @@ function ActividadCarouselItem(props) {
     else { displayClass = "d-none" }
     return (
 
-        <div className={'border m-5 p-3 actividad ' + displayClass}>
+        <div className={' m-5 p-3 actividad ' + displayClass}>
             <Row  >
                 <img
                     style={{ width: "230px" }}
