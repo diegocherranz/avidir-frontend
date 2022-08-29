@@ -105,6 +105,7 @@ function BarUsuarioDetalles(props) {
                         </svg> Alexa skill vinculada</p>
                         }
                     </Row>
+                    <Row className=""><Button href={window.location.pathname + "/recompensas"}>Recompensas</Button></Row>
                 </div>
 
             </Stack>
