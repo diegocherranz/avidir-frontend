@@ -22,6 +22,8 @@ import ActividadDetalles from './ActividadDetalles';
 import ActividadDetallesC from './ActividadDetallesC';
 import ListadoRecompensasC from './ListadoRecompensasC';
 import AnadirNuevaRecompensa from './AnadirNuevaRecompensa';
+import DetallesRecompensa from './DetallesRecompensa';
+import ListadoRecompensasUser from './ListadoRecompensasUser';
 
 class Router extends Component {
     render() {
@@ -46,6 +48,12 @@ class Router extends Component {
                     <Route path='/retos-usuario' element={<PrivateRouteU />}>
                         <Route path='/retos-usuario' element={<RetosUsuario />} />
                     </Route>
+                    <Route path='/recompensas' element={<PrivateRouteU />}>
+                        <Route path='/recompensas' element={<ListadoRecompensasUser />} />
+                    </Route>
+                    <Route path='/recompensa/:uuid_recompensa' element={<PrivateRouteU />}>
+                        <Route path='/recompensa/:uuid_recompensa' element={<DetallesRecompensa />} />
+                    </Route>
                     <Route path='/profile-usuario' element={<PrivateRouteU />}>
                         <Route path='/profile-usuario' element={<ProfileUsuario/>} />
                     </Route>
@@ -57,6 +65,9 @@ class Router extends Component {
                     </Route>
                     <Route path='/usuario/:id/recompensas' element={<PrivateRouteC />}>
                         <Route path='/usuario/:id/recompensas' element={<ListadoRecompensasC />} />
+                    </Route>
+                    <Route path='/recompensa/:uuid_recompensa' element={<PrivateRouteC />}>
+                        <Route path='/recompensa/:uuid_recompensa' element={<DetallesRecompensa />} />
                     </Route>
                     <Route path='/usuario/:id/nueva-recompensa' element={<PrivateRouteC />}>
                         <Route path='/usuario/:id/nueva-recompensa' element={<AnadirNuevaRecompensa />} />

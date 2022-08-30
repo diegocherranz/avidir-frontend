@@ -9,9 +9,12 @@ import { getUser } from "./AuthService";
 import axios from "axios";
 import api_key from "../utils/ApiKey";
 import api_url from "../utils/ApiUrl";
+import S3 from 'react-aws-s3';
 
 const getUserURL = api_url + '/get-usuario-id';
 const addRecompensaURL = api_url + '/add-recompensa';
+
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 function AnadirNuevaRecompensa(props) {
 
@@ -20,6 +23,7 @@ function AnadirNuevaRecompensa(props) {
     const [tipo, setTipo] = useState('');
     const [message, setMessage] = useState('');
     const [archivoSeleccionado, setArchivoSeleccionado] = useState(null);
+    const navigate = useNavigate();
 
     const { id } = useParams();
     const [usuario, setUsuario] = useState({});
@@ -53,7 +57,22 @@ function AnadirNuevaRecompensa(props) {
         })
     }
 
-    const submitHandler = (event) => {
+    
+
+    const uploadFile = async (file,config) => {
+        const ReactS3Client = new S3(config);
+        // the name of the file uploaded is used to upload it to S3
+        return ReactS3Client
+        .uploadFile(file, file.name)
+        .then(data => {console.log(data.location)
+            return data.location;
+        })
+        .catch(err => console.error(err))
+
+
+    }
+
+    const submitHandler = async (event) => {
         event.preventDefault();
         if (titulo.trim() === '' || descripcion.trim() === '' || tipo.trim() === '' || archivoSeleccionado === null) {
             setMessage('Todos los campos son obligatorios');
@@ -61,28 +80,52 @@ function AnadirNuevaRecompensa(props) {
         }
         setMessage(null);
 
+
+        const configS3 = {
+            bucketName: process.env.REACT_APP_BUCKET_NAME,
+            region: process.env.REACT_APP_REGION,
+            accessKeyId: process.env.REACT_APP_ACCESS,
+            secretAccessKey: process.env.REACT_APP_SECRET,
+            dirName: usuario.uuid
+        }
+
+        const location_file = await uploadFile(archivoSeleccionado,configS3).then(data => {
+            console.log(data)
+            return data}).catch(error => {
+                console.log(error);
+            })
+            
+            // the name of the file uploaded is used to upload it to S3
+         /*   ReactS3Client
+            .uploadFile(archivoSeleccionado, archivoSeleccionado.name)
+            .then(data => 
+                {
+                    console.log(data.location);
+                    location_file = data.location;
+                })
+            .catch(err => console.error(err))*/
+
+        
+
+
+
         const requestConfig = {
             headers: {
-                'x-api-key': api_key,
-                "Content-Type": "multipart/form-data"
+                'x-api-key': api_key
             }
         }
 
-        let formData = new FormData();
+        
 
-        formData.append(
-            archivoSeleccionado.name,
-            archivoSeleccionado
-        )
         
         console.log(archivoSeleccionado);
-        console.log(formData);
 
         const requestBody = {
             titulo: titulo,
             descripcion: descripcion,
             tipo: tipo,
-            archivo: formData
+            archivo: location_file,
+            uuid_user: usuario.uuid
         }
 
         console.log(requestBody);
@@ -91,7 +134,7 @@ function AnadirNuevaRecompensa(props) {
         
         axios.post(addRecompensaURL, requestBody, requestConfig).then(response => {
             setMessage('Recompensa subida');
-            //navigate('/usuarios');
+            navigate('/usuario/'+id+'/recompensas');
         }).catch(error => {
             if(error.response.status === 401){
                 setMessage(error.response.data.message);
@@ -100,6 +143,7 @@ function AnadirNuevaRecompensa(props) {
                 setMessage('El servidor no está disponible. Inténtelo de nuevo más tarde')
             }
         })
+        
     }
 
     return (

@@ -13,7 +13,7 @@ const BottomBarUsuario = () => {
                     <Nav.Link href="/actividades"><List/><p>Actividades</p></Nav.Link>
                     <Nav.Link href="/notificaciones-usuario"><Bell/><p>Notificaciones</p></Nav.Link>
                     <Nav.Link href="/retos-usuario"><Trophy/><br/>Retos</Nav.Link>
-                    <Nav.Link href="/profile-usuario"><Film/><p>Recompensas</p></Nav.Link>
+                    <Nav.Link href="/recompensas"><Film/><p>Recompensas</p></Nav.Link>
                 </Nav>
         </Navbar>
     )
