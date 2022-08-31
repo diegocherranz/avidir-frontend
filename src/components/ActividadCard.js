@@ -31,7 +31,7 @@ const CheckboxSemana = (props) => {
 const formatDate = (inputDate) => {
     let dateI = new Date(inputDate);
 
-    return (dateI.getDate() + "-" + dateI.getMonth() + "-" + dateI.getFullYear())
+    return (`${dateI.getDate()}-${dateI.getMonth()+1}-${dateI.getFullYear()}`)
 }
 
 function refreshPage() {

@@ -44,12 +44,12 @@ function NotificacionUserCard(props){
     return (
         <div>
             {console.log()}
-        <Card className='m-3 mt-0 mb-0 p-3 pt-0 pb-0' key={props.notificacion.uuid_notificacion} >
+        <Card className='m-3 mt-0 mb-0  pt-0 pb-0' key={props.notificacion.uuid_notificacion} >
             <Card.Body>
 
                 <Stack direction="horizontal">
-                <Bell/>
-                <p>{props.notificacion.texto}</p>
+                <p><Bell/></p>
+                <p className="m-2">{props.notificacion.texto}</p>
                 <Button onClick={() => marcarNotificacionLeida()}><Eye/></Button>
                 </Stack>
                 {/*

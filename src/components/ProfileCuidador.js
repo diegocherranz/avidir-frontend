@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap';
+import { Button, Container, Stack } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { getToken, resetUserSession, getUser } from './AuthService';
 import BottomBarCuidador from './BottomBarCuidador';
@@ -18,9 +18,13 @@ const ProfileCuidador = () => {
 
         <div>
             <BottomBarCuidador />
-            <p>Perfil</p>
-            <p>Hola {user.nombre}</p>
-            <Button onClick={logoutHandler} >Cerrar sesión</Button>
+            <Container className='text-center'>
+            <h5 className='my-5'>Perfil</h5>
+            <p >{user.nombre} {user.apellido}</p>
+            <div className='my-5'><img width={150} src='https://upload.wikimedia.org/wikipedia/commons/c/cd/Portrait_Placeholder_Square.png'></img></div>
+            
+            <Button className='my-5' onClick={logoutHandler} >Cerrar sesión</Button>
+            </Container>
             
         </div>
     )

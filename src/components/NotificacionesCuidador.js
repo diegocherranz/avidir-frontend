@@ -59,6 +59,7 @@ function NotificacionesCuidador(props) {
             {usuario.tipo === 'C' &&
                 <BottomBarCuidador />
             }
+            <Container style={{ paddingBottom: '120px' }}>
             <h5 className="m-3">Notificaciones</h5>
             {usuario.tipo === 'C' &&
                 <Row className='m-3 mb-0'>
@@ -71,6 +72,7 @@ function NotificacionesCuidador(props) {
                 </Row>
             }
 
+<Stack>
             {notificaciones.map((notificacion, i) => {
                 console.log(notificacion);
                 if (usuario.tipo === 'C')
@@ -80,8 +82,10 @@ function NotificacionesCuidador(props) {
                     )
                 else {
                     return (
-                        //<NotificacionUserCard notificacion={notificacion} key={notificacion.uuid_notificacion} />
-                        <Card className='m-3 mt-3 p-0' bg={"backgrund-card"}  >
+                        
+                        <NotificacionUserCard notificacion={notificacion} key={notificacion.uuid_notificacion} />
+                        /*<Card className='m-3 mt-3 p-0' bg={"backgrund-card"}  >
+                            {console.log(notificacion)}
                             <Stack direction='horizontal'>
                                 <Stack>
                                     <Card.Title className='m-3 mt-1'>Comenzar actividad</Card.Title>
@@ -94,16 +98,18 @@ function NotificacionesCuidador(props) {
                                 <Col xs={1}><Bell/></Col>
                                 <Col xs={8}><p>{props.notificacion.texto}</p></Col>
                                 <Col className='d-none d-sm-block'><Button><Eye/></Button></Col>
-                            </Row>*/
+                            </Row>
                                         }
                                     </Card.Body>
                                 </Stack>
                                 <Button className='ms-auto mx-2'><Eye /></Button>
                             </Stack>
-                        </Card>
+                        </Card>*/
                     )
                 }
             })}
+            </Stack>
+            </Container>
             {usuario.tipo === 'U' &&
                 <BottomBarUsuario />
             }
