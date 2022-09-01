@@ -31,16 +31,16 @@ const CheckboxSemana = (props) => {
 const formatDate = (inputDate) => {
     let dateI = new Date(inputDate);
 
-    return (`${dateI.getDate()}-${dateI.getMonth()+1}-${dateI.getFullYear()}`)
+    return (`${dateI.getDate()}-${dateI.getMonth() + 1}-${dateI.getFullYear()}`)
 }
 
 function refreshPage() {
     window.location.reload(false);
-  }
+}
 
 function DeleteDialog(props) {
 
-    function eliminarActividad (){
+    function eliminarActividad() {
 
         const requestBody = {
             uuid: props.actividad.uuid,
@@ -105,12 +105,18 @@ function ActividadCard(props) {
                         <p>Completada &#10004;</p>
                     }
                 </Col>
-                <Col xs={1} sm={{ span: 1, offset: 2 }} className=""><Link to={'/usuario/' + props.actividad.userUuid + '/' + props.actividad.uuid} style={{ textDecoration: 'none' }}><Button variant='light'><ChevronRight /></Button></Link></Col>
+                <Col xs={1} sm={{ span: 1, offset: 2 }} className="">
+                    <Link to={'/usuario/' + props.actividad.userUuid + '/' + props.actividad.uuid} style={{ textDecoration: 'none' }}>
+                        <Button variant='light'>
+                            <ChevronRight />
+                        </Button>
+                    </Link>
+                </Col>
                 <Col xs={1} sm={1}><Button variant='light'><Pencil /></Button></Col>
                 <Col xs={1} sm={1}><Button onClick={() => setDeleteDialogShow(true)} variant='light'><Trash /></Button></Col>
             </Row>
 
-            <DeleteDialog actividad={props.actividad} show={deleteDialogShow} onHide={() => setDeleteDialogShow(false)}/>
+            <DeleteDialog actividad={props.actividad} show={deleteDialogShow} onHide={() => setDeleteDialogShow(false)} />
         </Card>
     )
 }

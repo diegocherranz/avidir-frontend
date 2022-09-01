@@ -141,7 +141,7 @@ function Actividades() {
 
 
         <div>
-            <Container style={{ textAlign: "center" }}>
+            <Container style={{ textAlign: "center",paddingBottom: '120px' }}>
                 <h5 className='m-3'>Mis actividades</h5>
                 {actividades.length > 0 &&
 

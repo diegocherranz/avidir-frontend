@@ -10,6 +10,7 @@ import axios from "axios";
 import api_key from "../utils/ApiKey";
 import api_url from "../utils/ApiUrl";
 import S3 from 'react-aws-s3';
+import S3_Test from 'react-s3';
 
 const getUserURL = api_url + '/get-usuario-id';
 const addRecompensaURL = api_url + '/add-recompensa';
@@ -72,6 +73,14 @@ function AnadirNuevaRecompensa(props) {
 
     }
 
+    const handleUpload = async (file, config) => {
+        return uploadFile(file, config)
+            .then(data => {
+                console.log(data)
+                return data})
+            .catch(err => console.error(err))
+    }
+
     const submitHandler = async (event) => {
         event.preventDefault();
         if (titulo.trim() === '' || descripcion.trim() === '' || tipo.trim() === '' || archivoSeleccionado === null) {
@@ -89,11 +98,25 @@ function AnadirNuevaRecompensa(props) {
             dirName: usuario.uuid
         }
 
-        const location_file = await uploadFile(archivoSeleccionado,configS3).then(data => {
+        console.log("configgg")
+        console.log(configS3)
+
+        const location_file = await handleUpload(archivoSeleccionado,configS3).then(data => {
             console.log(data)
-            return data}).catch(error => {
+            return data
+        }).catch(error => {
                 console.log(error);
             })
+
+        /*
+        const location_file = await uploadFile(archivoSeleccionado,configS3).then(data => {
+            console.log(data)
+            return data
+        }).catch(error => {
+                console.log(error);
+            })
+
+            */
             
             // the name of the file uploaded is used to upload it to S3
          /*   ReactS3Client
