@@ -9,8 +9,28 @@ import { getUser } from "./AuthService";
 import axios from "axios";
 import api_key from "../utils/ApiKey";
 import api_url from "../utils/ApiUrl";
-import S3 from 'react-aws-s3';
-import S3_Test from 'react-s3';
+import AWS from 'aws-sdk';
+
+AWS.config.update({
+    accessKeyId: process.env.REACT_APP_ACCESS,
+    secretAccessKey: process.env.REACT_APP_SECRET,
+    region: process.env.REACT_APP_REGION,
+    maxRetries: 3
+});
+
+
+AWS.config.getCredentials(function(err) {
+    if (err) console.log(err.stack);
+    // credentials not loaded
+    else {
+      console.log("Access key:", AWS.config.credentials.accessKeyId);
+    }
+  });
+
+const myBucket = new AWS.S3({
+    params: { Bucket: 'avidir-files-bucket'},
+    region: process.env.REACT_APP_REGION,
+})
 
 const getUserURL = api_url + '/get-usuario-id';
 const addRecompensaURL = api_url + '/add-recompensa';
@@ -58,7 +78,7 @@ function AnadirNuevaRecompensa(props) {
         })
     }
 
-    
+    /*
 
     const uploadFile = async (file,config) => {
         const ReactS3Client = new S3(config);
@@ -80,6 +100,7 @@ function AnadirNuevaRecompensa(props) {
                 return data})
             .catch(err => console.error(err))
     }
+    */
 
     const submitHandler = async (event) => {
         event.preventDefault();
@@ -89,7 +110,48 @@ function AnadirNuevaRecompensa(props) {
         }
         setMessage(null);
 
+        var upload = new AWS.S3.ManagedUpload({
+            params: {
+              Bucket: 'avidir-files-bucket',
+              Key: usuario.uuid + '/' + archivoSeleccionado.name,
+              Body: archivoSeleccionado
+            }
+          });
+        
+          var promise = upload.promise();
+        
+          let location_file = '';
+          await promise.then(
+            function(data) {
+              console.log(data.Location)
+              location_file = data.Location;
+            },
+            function(err) {
+                console.error(err)
+            }
+          );
 
+        /*
+
+        const uploadFile = (file) => {
+
+            const params = {
+                ACL: 'public-read',
+                Body: archivoSeleccionado,
+                Bucket: process.env.REACT_APP_BUCKET_NAME,
+                Key: usuario.uuid + '/' + archivoSeleccionado.name
+            };
+    
+            myBucket.putObject(params)
+                .on('httpUploadProgress', (evt) => {
+                    setProgress(Math.round((evt.loaded / evt.total) * 100))
+                })
+                .send((err) => {
+                    if (err) console.log(err)
+                })
+        }
+
+        /*
         const configS3 = {
             bucketName: process.env.REACT_APP_BUCKET_NAME,
             region: process.env.REACT_APP_REGION,
@@ -117,18 +179,18 @@ function AnadirNuevaRecompensa(props) {
             })
 
             */
-            
-            // the name of the file uploaded is used to upload it to S3
-         /*   ReactS3Client
-            .uploadFile(archivoSeleccionado, archivoSeleccionado.name)
-            .then(data => 
-                {
-                    console.log(data.location);
-                    location_file = data.location;
-                })
-            .catch(err => console.error(err))*/
 
-        
+        // the name of the file uploaded is used to upload it to S3
+        /*   ReactS3Client
+           .uploadFile(archivoSeleccionado, archivoSeleccionado.name)
+           .then(data => 
+               {
+                   console.log(data.location);
+                   location_file = data.location;
+               })
+           .catch(err => console.error(err))*/
+
+
 
 
 
@@ -138,9 +200,9 @@ function AnadirNuevaRecompensa(props) {
             }
         }
 
-        
 
-        
+
+
         console.log(archivoSeleccionado);
 
         const requestBody = {
@@ -152,21 +214,21 @@ function AnadirNuevaRecompensa(props) {
         }
 
         console.log(requestBody);
-        
 
-        
+
+
         axios.post(addRecompensaURL, requestBody, requestConfig).then(response => {
             setMessage('Recompensa subida');
-            navigate('/usuario/'+id+'/recompensas');
+            navigate('/usuario/' + id + '/recompensas');
         }).catch(error => {
-            if(error.response.status === 401){
+            if (error.response.status === 401) {
                 setMessage(error.response.data.message);
             }
-            else{
+            else {
                 setMessage('El servidor no está disponible. Inténtelo de nuevo más tarde')
             }
         })
-        
+
     }
 
     return (
@@ -174,7 +236,7 @@ function AnadirNuevaRecompensa(props) {
             <BottomBarCuidador />
             <Container className="mt-3">
 
-                <h5>Nueva recompensa para {usuario.nombre +' '+usuario.apellido}</h5>
+                <h5>Nueva recompensa para {usuario.nombre + ' ' + usuario.apellido}</h5>
                 <Form className="mt-5 mr-5 ml-5" onSubmit={submitHandler} >
                     <Form.Group as={Row} className="mb-3 mt-5" controlId="formTitulo">
                         <Form.Label column xs={2} sm={2}>Titulo</Form.Label>

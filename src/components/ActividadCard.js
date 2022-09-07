@@ -105,14 +105,16 @@ function ActividadCard(props) {
                         <p>Completada &#10004;</p>
                     }
                 </Col>
-                <Col xs={1} sm={{ span: 1, offset: 2 }} className="">
+                <Col xs={1} sm={{ span: 1, offset: 4 }} className="">
                     <Link to={'/usuario/' + props.actividad.userUuid + '/' + props.actividad.uuid} style={{ textDecoration: 'none' }}>
                         <Button variant='light'>
                             <ChevronRight />
                         </Button>
                     </Link>
                 </Col>
-                <Col xs={1} sm={1}><Button variant='light'><Pencil /></Button></Col>
+                {//<Col xs={1} sm={1}><Button variant='light'><Pencil /></Button></Col>
+                
+                }
                 <Col xs={1} sm={1}><Button onClick={() => setDeleteDialogShow(true)} variant='light'><Trash /></Button></Col>
             </Row>
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Row, Stack } from "react-bootstrap";
-import { Bell, Eye } from "react-bootstrap-icons";
+import { Bell, Eye, Trash } from "react-bootstrap-icons";
 import api_key from "../utils/ApiKey";
 import api_url from "../utils/ApiUrl";
 
@@ -50,7 +50,7 @@ function NotificacionUserCard(props){
                 <Stack direction="horizontal">
                 <p><Bell/></p>
                 <p className="m-2">{props.notificacion.texto}</p>
-                <Button onClick={() => marcarNotificacionLeida()}><Eye/></Button>
+                <Button variant="red" onClick={() => marcarNotificacionLeida()}><Trash color="white"/></Button>
                 </Stack>
                 {/*
             <Row className='align-items-baseline'>

@@ -92,10 +92,13 @@ function BarUsuarioDetalles(props) {
                     <Row ><p>{getEdad(props.user.fecha_nacimiento)} años</p></Row>
                     <Row className="mt-3"><p>Fecha de nacimiento: {moment(props.user.fecha_nacimiento).format("DD-MM-YYYY")}</p></Row>
                 </div>
+                {/*
                 <div className="m-5 mt-0 mb-0">
                 <Row className="mb-4"><Button href={window.location.pathname + "/retos"}>Retos</Button></Row>
                     <Row className="mt-3 mb-3"><Button href={window.location.pathname + "/recompensas"}>Recompensas</Button></Row>
-                </div>
+                </div>*/
+
+}
                 <div className="m-5 mt-0 mb-0">
                     <Row className="mb-4">
                         {(props.user.email_alexa === '') || (props.user.email_alexa === undefined) &&

@@ -101,7 +101,7 @@ const ListadoUsuarios = () => {
                             }
                         }).map((user, i) => {
                             return (
-                                <Link to={'/usuario/'+user.uuid} style={{ textDecoration: 'none' }}><UsuarioCard user={user} key={user.uuid} /></Link>
+                                <Link key={user.uuid} to={'/usuario/'+user.uuid} style={{ textDecoration: 'none' }}><UsuarioCard user={user}  /></Link>
                             )
                         })
 

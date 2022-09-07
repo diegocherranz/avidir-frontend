@@ -142,7 +142,9 @@ function PaginaUsuario(props) {
             <Container>
                 <Stack direction="horizontal" >
                     <h5 className="m-3 mb-0">Actividades</h5>
-                    <Link className='btn  ms-auto' to='/nueva-actividad' state={{ userid: id }} ><Button className="m-3 mb-0 ms-auto">Añadir Actividad</Button></Link>
+                    <Button className='ms-auto m-3 mb-0' href={window.location.pathname + "/retos"}>Retos</Button>
+                    <Button className='m-3 mb-0' href={window.location.pathname + "/recompensas"}>Recompensas</Button>
+                    <Link className='btn ' to='/nueva-actividad' state={{ userid: id }} ><Button className="m-3 mb-0 ">Añadir Actividad</Button></Link>
                     {/*<Button href='/nueva-actividad' className="m-3 mb-0 ms-auto">Añadir Actividad</Button>*/}
                 </Stack>
 
